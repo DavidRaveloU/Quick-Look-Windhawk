@@ -6,7 +6,7 @@
 // @author          David Ravelo
 // @include         explorer.exe
 // @architecture    x86-64
-// @compilerOptions -lole32 -loleaut32 -lshell32 -luser32 -lgdi32 -lcomctl32 -luuid -luxtheme -lwindowscodecs -lmsimg32 -ladvapi32 -lshlwapi
+// @compilerOptions -lole32 -loleaut32 -lshell32 -luser32 -lgdi32 -lcomctl32 -luuid -luxtheme -lwindowscodecs -lmsimg32 -ladvapi32 -lshlwapi -lmfplat -lmfreadwrite -lmfuuid
 // @license         MIT
 // ==/WindhawkMod==
 
@@ -41,30 +41,13 @@
 
 // ==WindhawkModReadme==
 /*
-<div align="center">
-
-# Quick Look For Windhawk
+# Quick Look
 
 A native Quick Look preview for Windows File Explorer, packed as a [Windhawk](https://windhawk.net) mod.
 
 Select a file or a folder and press **Space**. That is the whole idea.
 
-<br>
-
-<a href="https://github.com/DavidRaveloU/Quick-Look-Windhawk/blob/main/LICENSE">
-  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT">
-</a>
-<a href="https://github.com/DavidRaveloU/Quick-Look-Windhawk/blob/main/version.json">
-  <img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/version.json&query=%24.version&label=version&prefix=v&color=informational&cacheSeconds=300" alt="Version">
-</a>
-<a href="https://www.microsoft.com/windows">
-  <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D6" alt="Platform: Windows 10/11">
-</a>
-<a href="https://windhawk.net">
-  <img src="https://img.shields.io/badge/Windhawk-mod-orange" alt="Windhawk mod">
-</a>
-
-</div>
+![Quick Look panel docked in File Explorer](https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/preview.png)
 
 Quick Look docks a real panel **inside the File Explorer window**, next to the file list, and previews
 whatever is selected. It is not a floating window: it is a child of the Explorer tab, so it moves with
@@ -75,29 +58,6 @@ Folders open with **Explorer's own file list**, not a copy: the same icons, colu
 and scrollbars. Text, images, video, audio, PDF, Word, Excel, PowerPoint, archives and everything else
 have their own preview or a proper fallback. Nothing runs on a timer in the background, and nothing that
 touches the disk ever blocks Explorer.
-
-## Screenshots
-
-<p align="left">
-  <img width="760" alt="Quick Look panel docked in File Explorer" src="https://github.com/user-attachments/assets/2dc374a1-185a-4a94-a060-3624ca6b6a92" />
-</p>
-
-
-A few of the things it previews:
-
-<table>
-  <tr>
-    <td align="center"><img width="230" alt="Aurora Amber" src="https://github.com/user-attachments/assets/7c6b57dc-7d5a-4b93-ab37-919f8af1e0d5" /><br><b>Winrar/Zip</b> &middot; Support</td>
-    <td align="center"><img width="230" alt="Aurora Emerald" src="https://github.com/user-attachments/assets/7b7b3a98-c824-4374-9754-8305b3a5f340" /><br><b>Plain Text</b> &middot; Support</td>
-    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/cf05e7a1-96d4-4b8b-9ffd-907cd0327446" /><br><b>Images</b> &middot; Support</td>
-  </tr>
-  <tr>
-    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/08cd3401-0be9-482e-a361-ff6c9325d9ae" /><br><b>PDF</b> &middot; Support</td>
-    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/5366aae3-ceba-4e45-a517-198c47ddf542" /><br><b>Office Files</b> &middot; Support (Only text)</td>
-    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/2dc374a1-185a-4a94-a060-3624ca6b6a92" /><br><b>Folder</b> &middot; Support</td>
-
-  </tr>
-</table>
 
 ## Highlights
 
@@ -135,6 +95,18 @@ A few of the things it previews:
   checking a cloud placeholder all run on worker threads. The panel opens at once with a loading state,
   a new selection cancels the previous load, and a file that is only a cloud placeholder is never
   downloaded just to be previewed.
+
+A few of the things it previews:
+
+![Quick Look archive preview](https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/archive.png)
+
+![Quick Look text preview](https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/text.png)
+
+![Quick Look image preview](https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/images.png)
+
+![Quick Look PDF preview](https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/pdf.png)
+
+![Quick Look document preview](https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/office.png)
 
 ## Install
 
@@ -232,6 +204,9 @@ Copyright (c) 2026-present David Ravelo.
 #include <uxtheme.h>
 #include <wincodec.h>
 #include <shlwapi.h>
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfreadwrite.h>
 
 #include <algorithm>
 #include <atomic>
@@ -599,6 +574,8 @@ static std::map<HWND, PanelState*> g_states;
 static CRITICAL_SECTION g_stateLock;
 static std::atomic<bool> g_anyOpen{false};
 static std::atomic<bool> g_enabled{true};
+// Media Foundation is started once; the video frame fallback needs it.
+static std::atomic<bool> g_mediaFoundation{false};
 static std::atomic<bool> g_unloading{false};
 static std::atomic<bool> g_swallowSpaceUp{false};
 static std::atomic<bool> g_reflowColumns{true};
@@ -3213,6 +3190,211 @@ static HBITMAP LoadShellThumbnail(const std::wstring& path, int size) {
     return bitmap;
 }
 
+// Windows only produces a thumbnail for a video when the shell has a thumbnail
+// provider registered for that extension and a codec is installed. A file named
+// .mpg4, for instance, gets nothing. This decodes the first frame with Media
+// Foundation instead, so any container it can open previews: the extension only
+// decides that the file is a video, not that Windows knows what to do with it.
+static HBITMAP LoadVideoFrameMediaFoundation(const std::wstring& path,
+                                             int& width, int& height) {
+    width = 0;
+    height = 0;
+    if (!g_mediaFoundation.load()) {
+        return nullptr;
+    }
+
+    IMFAttributes* attributes = nullptr;
+    IMFSourceReader* reader = nullptr;
+    IMFMediaType* outputType = nullptr;
+    IMFMediaType* currentType = nullptr;
+    IMFSample* sample = nullptr;
+    IMFMediaBuffer* buffer = nullptr;
+    IMF2DBuffer* buffer2d = nullptr;
+    HBITMAP result = nullptr;
+
+    if (FAILED(MFCreateAttributes(&attributes, 1)) || !attributes) {
+        return nullptr;
+    }
+    attributes->SetUINT32(MF_SOURCE_READER_ENABLE_VIDEO_PROCESSING, TRUE);
+
+    HRESULT hr = MFCreateSourceReaderFromURL(path.c_str(), attributes, &reader);
+    attributes->Release();
+    if (FAILED(hr) || !reader) {
+        return nullptr;
+    }
+
+    reader->SetStreamSelection(MF_SOURCE_READER_ALL_STREAMS, FALSE);
+    reader->SetStreamSelection(MF_SOURCE_READER_FIRST_VIDEO_STREAM, TRUE);
+
+    if (SUCCEEDED(MFCreateMediaType(&outputType)) && outputType &&
+        SUCCEEDED(outputType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Video)) &&
+        SUCCEEDED(outputType->SetGUID(MF_MT_SUBTYPE, MFVideoFormat_RGB32))) {
+        hr = reader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
+                                         nullptr, outputType);
+    }
+    if (outputType) {
+        outputType->Release();
+    }
+    if (FAILED(hr)) {
+        reader->Release();
+        return nullptr;
+    }
+
+    // A second in, so the frame is not the black or title first frame.
+    PROPVARIANT position;
+    PropVariantInit(&position);
+    position.vt = VT_I8;
+    position.hVal.QuadPart = 10000000;
+    reader->SetCurrentPosition(GUID_NULL, position);
+    PropVariantClear(&position);
+
+    for (int attempt = 0; attempt < 40 && !result; attempt++) {
+        DWORD flags = 0;
+        LONGLONG timestamp = 0;
+        hr = reader->ReadSample(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, nullptr,
+                                &flags, &timestamp, &sample);
+        if (FAILED(hr) || (flags & MF_SOURCE_READERF_ENDOFSTREAM)) {
+            break;
+        }
+        if (!sample) {
+            continue;
+        }
+        if (FAILED(sample->ConvertToContiguousBuffer(&buffer)) || !buffer) {
+            sample->Release();
+            sample = nullptr;
+            continue;
+        }
+        if (FAILED(reader->GetCurrentMediaType(
+                MF_SOURCE_READER_FIRST_VIDEO_STREAM, &currentType)) ||
+            !currentType) {
+            buffer->Release();
+            sample->Release();
+            buffer = nullptr;
+            sample = nullptr;
+            continue;
+        }
+
+        UINT32 frameWidth = 0;
+        UINT32 frameHeight = 0;
+        MFGetAttributeSize(currentType, MF_MT_FRAME_SIZE, &frameWidth,
+                           &frameHeight);
+        if (frameWidth == 0 || frameHeight == 0 || frameWidth > 8192 ||
+            frameHeight > 8192) {
+            currentType->Release();
+            buffer->Release();
+            sample->Release();
+            currentType = nullptr;
+            buffer = nullptr;
+            sample = nullptr;
+            continue;
+        }
+
+        // The decoder pads to a multiple of 16; the aperture says what is
+        // actually visible.
+        int cropLeft = 0;
+        int cropTop = 0;
+        int cropWidth = static_cast<int>(frameWidth);
+        int cropHeight = static_cast<int>(frameHeight);
+        MFVideoArea aperture = {};
+        UINT32 apertureSize = 0;
+        if (SUCCEEDED(currentType->GetBlob(
+                MF_MT_MINIMUM_DISPLAY_APERTURE,
+                reinterpret_cast<UINT8*>(&aperture), sizeof(aperture),
+                &apertureSize)) &&
+            apertureSize >= sizeof(MFVideoArea) && aperture.Area.cx > 0 &&
+            aperture.Area.cy > 0) {
+            // MFOffset splits the value into a signed integer and a fraction.
+            int offsetX = aperture.OffsetX.value;
+            int offsetY = aperture.OffsetY.value;
+            if (offsetX >= 0 && offsetY >= 0 &&
+                offsetX + aperture.Area.cx <= static_cast<LONG>(frameWidth) &&
+                offsetY + aperture.Area.cy <= static_cast<LONG>(frameHeight)) {
+                cropLeft = offsetX;
+                cropTop = offsetY;
+                cropWidth = static_cast<int>(aperture.Area.cx);
+                cropHeight = static_cast<int>(aperture.Area.cy);
+            }
+        }
+
+        BYTE* scanline = nullptr;
+        LONG pitch = 0;
+        bool locked2d = false;
+        if (SUCCEEDED(buffer->QueryInterface(IID_IMF2DBuffer,
+                                             (void**)&buffer2d)) &&
+            buffer2d) {
+            if (SUCCEEDED(buffer2d->Lock2D(&scanline, &pitch))) {
+                locked2d = true;
+            }
+        }
+        if (!scanline) {
+            DWORD length = 0;
+            if (SUCCEEDED(buffer->Lock(&scanline, nullptr, &length))) {
+                MFGetStrideForBitmapInfoHeader(MFVideoFormat_RGB32.Data1,
+                                               frameWidth, &pitch);
+            }
+        }
+
+        if (scanline && pitch != 0) {
+            BITMAPINFO info = {};
+            info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+            info.bmiHeader.biWidth = cropWidth;
+            info.bmiHeader.biHeight = -cropHeight;
+            info.bmiHeader.biPlanes = 1;
+            info.bmiHeader.biBitCount = 32;
+            info.bmiHeader.biCompression = BI_RGB;
+
+            void* bits = nullptr;
+            HBITMAP bitmap = CreateDIBSection(nullptr, &info, DIB_RGB_COLORS,
+                                              &bits, nullptr, 0);
+            if (bitmap && bits) {
+                LONG sourceStride = pitch < 0 ? -pitch : pitch;
+                for (int y = 0; y < cropHeight; y++) {
+                    int visibleRow = cropTop + y;
+                    int sourceRow = pitch < 0
+                                        ? static_cast<int>(frameHeight) - 1 -
+                                              visibleRow
+                                        : visibleRow;
+                    const BYTE* source =
+                        scanline + static_cast<size_t>(sourceRow) *
+                                       static_cast<size_t>(sourceStride) +
+                        static_cast<size_t>(cropLeft) * 4;
+                    BYTE* target = reinterpret_cast<BYTE*>(bits) +
+                                   static_cast<size_t>(y) * cropWidth * 4;
+                    memcpy(target, source,
+                           static_cast<size_t>(cropWidth) * 4);
+                    // The video processor leaves a zero alpha channel, which
+                    // would make the frame invisible when it is blended.
+                    for (int x = 0; x < cropWidth; x++) {
+                        target[x * 4 + 3] = 0xFF;
+                    }
+                }
+                width = cropWidth;
+                height = cropHeight;
+                result = bitmap;
+            }
+        }
+
+        if (locked2d && buffer2d) {
+            buffer2d->Unlock2D();
+        } else if (scanline) {
+            buffer->Unlock();
+        }
+        if (buffer2d) {
+            buffer2d->Release();
+            buffer2d = nullptr;
+        }
+        currentType->Release();
+        currentType = nullptr;
+        buffer->Release();
+        buffer = nullptr;
+        sample->Release();
+        sample = nullptr;
+    }
+
+    reader->Release();
+    return result;
+}
+
 // Images are decoded at full resolution through WIC and converted to a
 // premultiplied 32bpp DIB, which AlphaBlend can draw with its corners intact.
 // Images are decoded through WIC into a premultiplied 32bpp DIB, which
@@ -4105,6 +4287,23 @@ static void RunProbe(ProbeResult* result) {
                                result->kind == ProbeKind::Audio)) {
         result->thumbnail = LoadShellThumbnail(
             result->path, result->kind == ProbeKind::Video ? 1280 : 512);
+        if (!result->thumbnail && result->kind == ProbeKind::Video) {
+            // No thumbnail provider for this extension or codec: decode the
+            // first frame ourselves.
+            int frameWidth = 0;
+            int frameHeight = 0;
+            result->thumbnail = LoadVideoFrameMediaFoundation(
+                result->path, frameWidth, frameHeight);
+            if (result->thumbnail) {
+                result->thumbnailWidth = frameWidth;
+                result->thumbnailHeight = frameHeight;
+                QlLog(L"video frame: media foundation %s %dx%d",
+                      result->path.c_str(), frameWidth, frameHeight);
+            } else {
+                QlLog(L"video frame: no thumbnail and no decoder for %s",
+                      result->path.c_str());
+            }
+        }
         if (result->thumbnail) {
             BITMAP info = {};
             if (GetObjectW(result->thumbnail, sizeof(info), &info)) {
@@ -9910,7 +10109,6 @@ BOOL Wh_ModInit() {
     Wh_Log(L"Quick Look initializing");
     LoadSettings();
     g_panelWidthDip = std::max(0, Wh_GetIntValue(L"panelWidthDip", 0));
-
     GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
                            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
                        (LPCWSTR)PanelWndProc, &g_instance);
@@ -9918,6 +10116,8 @@ BOOL Wh_ModInit() {
         g_instance = GetModuleHandleW(nullptr);
     }
     RefreshWindowsAccent();
+    // Media Foundation is started once, for the video frame fallback.
+    g_mediaFoundation = SUCCEEDED(MFStartup(MF_VERSION, MFSTARTUP_NOSOCKET));
 
     g_panelClass = Fmt(L"QuickLookPanel_%p_%u", (void*)g_instance,
                        (unsigned)GetTickCount64());
@@ -9995,4 +10195,6 @@ void Wh_ModUninit() {
     if (g_instance && !g_menuClass.empty()) {
         UnregisterClassW(g_menuClass.c_str(), g_instance);
     }
+    // Media Foundation is deliberately left started: a probe thread may still
+    // hold a source reader, and shutting it down under it would crash Explorer.
 }
