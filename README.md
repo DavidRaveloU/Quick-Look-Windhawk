@@ -1,27 +1,12 @@
-<div align="center">
-
 # Quick Look For Windhawk
 
 A native Quick Look preview for Windows File Explorer, packed as a [Windhawk](https://windhawk.net) mod.
-
 Select a file or a folder and press **Space**. That is the whole idea.
 
-<br>
-
-<a href="LICENSE">
-  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT">
-</a>
-<a href="version.json">
-  <img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/version.json&query=%24.version&label=version&prefix=v&color=informational&cacheSeconds=300" alt="Version">
-</a>
-<a href="https://www.microsoft.com/windows">
-  <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D6" alt="Platform: Windows 10/11">
-</a>
-<a href="https://windhawk.net">
-  <img src="https://img.shields.io/badge/Windhawk-mod-orange" alt="Windhawk mod">
-</a>
-
-</div>
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/version.json&query=%24.version&label=version&prefix=v&color=informational&cacheSeconds=300)](version.json)
+[![Platform: Windows 10 | 11](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D6)](https://www.microsoft.com/windows)
+[![Windhawk mod](https://img.shields.io/badge/Windhawk-mod-orange)](https://windhawk.net)
 
 Quick Look docks a real panel **inside the File Explorer window**, next to the file list, and previews
 whatever is selected. It is not a floating window: it is a child of the Explorer tab, so it moves with
@@ -36,27 +21,21 @@ touches the disk ever blocks Explorer.
 ## Screenshots
 
 <!--
-  Screenshots: paste the image URLs below and remove the comment markers around
-  each block. The slots are already sized for a 760 px wide capture.
+  Paste the image URLs below and remove the comment markers. The slots are sized
+  for a 760 px wide capture.
 
-  <p align="center">
-    <img width="760" alt="Folder preview with the native file list" src="" />
-  </p>
+![Folder preview with the native file list]()
 
-  A folder selected with **Space**: the panel docked on the right, the Details columns shrunk to make
-  room, and Explorer's own list inside the panel.
+A folder selected with **Space**: the panel docked on the right, the Details columns shrunk to make
+room, and Explorer's own list inside the panel.
 
-  <p align="center">
-    <img width="760" alt="Text preview with the toolbar" src="" />
-  </p>
+![Text preview with the toolbar]()
 
-  A source file with line numbers, alternating rows and the search box filtering the matches.
+A source file with line numbers, alternating rows and the search box filtering the matches.
 
-  <p align="center">
-    <img width="760" alt="Document and PDF preview" src="" />
-  </p>
+![Document and PDF preview]()
 
-  A PDF rendered by the Windows preview handler, and a Word document read as text without Office.
+A PDF rendered by the Windows preview handler, and a Word document read as text without Office.
 -->
 
 ## Highlights
