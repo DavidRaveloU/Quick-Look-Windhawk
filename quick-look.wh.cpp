@@ -41,15 +41,30 @@
 
 // ==WindhawkModReadme==
 /*
+<div align="center">
+
 # Quick Look For Windhawk
 
 A native Quick Look preview for Windows File Explorer, packed as a [Windhawk](https://windhawk.net) mod.
+
 Select a file or a folder and press **Space**. That is the whole idea.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/version.json&query=%24.version&label=version&prefix=v&color=informational&cacheSeconds=300)](version.json)
-[![Platform: Windows 10 | 11](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D6)](https://www.microsoft.com/windows)
-[![Windhawk mod](https://img.shields.io/badge/Windhawk-mod-orange)](https://windhawk.net)
+<br>
+
+<a href="https://github.com/DavidRaveloU/Quick-Look-Windhawk/blob/main/LICENSE">
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT">
+</a>
+<a href="https://github.com/DavidRaveloU/Quick-Look-Windhawk/blob/main/version.json">
+  <img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/version.json&query=%24.version&label=version&prefix=v&color=informational&cacheSeconds=300" alt="Version">
+</a>
+<a href="https://www.microsoft.com/windows">
+  <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D6" alt="Platform: Windows 10/11">
+</a>
+<a href="https://windhawk.net">
+  <img src="https://img.shields.io/badge/Windhawk-mod-orange" alt="Windhawk mod">
+</a>
+
+</div>
 
 Quick Look docks a real panel **inside the File Explorer window**, next to the file list, and previews
 whatever is selected. It is not a floating window: it is a child of the Explorer tab, so it moves with
@@ -63,23 +78,26 @@ touches the disk ever blocks Explorer.
 
 ## Screenshots
 
-<!--
-  Paste the image URLs below and remove the comment markers. The slots are sized
-  for a 760 px wide capture.
+<p align="left">
+  <img width="760" alt="Quick Look panel docked in File Explorer" src="https://github.com/user-attachments/assets/2dc374a1-185a-4a94-a060-3624ca6b6a92" />
+</p>
 
-![Folder preview with the native file list]()
 
-A folder selected with **Space**: the panel docked on the right, the Details columns shrunk to make
-room, and Explorer's own list inside the panel.
+A few of the things it previews:
 
-![Text preview with the toolbar]()
+<table>
+  <tr>
+    <td align="center"><img width="230" alt="Aurora Amber" src="https://github.com/user-attachments/assets/7c6b57dc-7d5a-4b93-ab37-919f8af1e0d5" /><br><b>Winrar/Zip</b> &middot; Support</td>
+    <td align="center"><img width="230" alt="Aurora Emerald" src="https://github.com/user-attachments/assets/7b7b3a98-c824-4374-9754-8305b3a5f340" /><br><b>Plain Text</b> &middot; Support</td>
+    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/cf05e7a1-96d4-4b8b-9ffd-907cd0327446" /><br><b>Images</b> &middot; Support</td>
+  </tr>
+  <tr>
+    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/08cd3401-0be9-482e-a361-ff6c9325d9ae" /><br><b>PDF</b> &middot; Support</td>
+    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/5366aae3-ceba-4e45-a517-198c47ddf542" /><br><b>Office Files</b> &middot; Support (Only text)</td>
+    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/2dc374a1-185a-4a94-a060-3624ca6b6a92" /><br><b>Folder</b> &middot; Support</td>
 
-A source file with line numbers, alternating rows and the search box filtering the matches.
-
-![Document and PDF preview]()
-
-A PDF rendered by the Windows preview handler, and a Word document read as text without Office.
--->
+  </tr>
+</table>
 
 ## Highlights
 
@@ -3065,9 +3083,10 @@ static bool MatchesExtension(const std::wstring& extension,
 QL_EXT_LIST(kImageExtensions, L"png", L"jpg", L"jpeg", L"jpe", L"jfif",
             L"bmp", L"dib", L"gif", L"tif", L"tiff", L"ico", L"webp",
             L"heic", L"avif");
-QL_EXT_LIST(kVideoExtensions, L"mp4", L"m4v", L"mkv", L"webm", L"avi",
-            L"mov", L"wmv", L"mpg", L"mpeg", L"ts", L"m2ts", L"flv", L"3gp",
-            L"ogv");
+QL_EXT_LIST(kVideoExtensions, L"mp4", L"mpg4", L"mpeg4", L"m4v", L"mkv",
+            L"webm", L"avi", L"mov", L"wmv", L"mpg", L"mpeg", L"mpe", L"mts",
+            L"m2ts", L"ts", L"flv", L"f4v", L"3gp", L"3g2", L"ogv", L"vob",
+            L"asf");
 QL_EXT_LIST(kAudioExtensions, L"mp3", L"flac", L"wav", L"m4a", L"aac",
             L"ogg", L"opus", L"wma", L"mid", L"midi");
 QL_EXT_LIST(kPdfExtensions, L"pdf");
