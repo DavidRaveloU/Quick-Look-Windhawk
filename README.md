@@ -36,7 +36,7 @@ touches the disk ever blocks Explorer.
 ## Screenshots
 
 <p align="left">
-  <img width="760" alt="Quick Look panel docked in File Explorer" src="https://github.com/user-attachments/assets/2dc374a1-185a-4a94-a060-3624ca6b6a92" />
+  <img width="760" alt="Quick Look panel docked in File Explorer" src="https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/preview.png" />
 </p>
 
 
@@ -44,14 +44,14 @@ A few of the things it previews:
 
 <table>
   <tr>
-    <td align="center"><img width="230" alt="Aurora Amber" src="https://github.com/user-attachments/assets/7c6b57dc-7d5a-4b93-ab37-919f8af1e0d5" /><br><b>Winrar/Zip</b> &middot; Support</td>
-    <td align="center"><img width="230" alt="Aurora Emerald" src="https://github.com/user-attachments/assets/7b7b3a98-c824-4374-9754-8305b3a5f340" /><br><b>Plain Text</b> &middot; Support</td>
-    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/cf05e7a1-96d4-4b8b-9ffd-907cd0327446" /><br><b>Images</b> &middot; Support</td>
+    <td align="center"><img width="230" alt="WinRAR and ZIP archive preview" src="https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/archive.png" /><br><b>Winrar/Zip</b> &middot; Support</td>
+    <td align="center"><img width="230" alt="Plain text preview with line numbers" src="https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/text.png" /><br><b>Plain Text</b> &middot; Support</td>
+    <td align="center"><img width="230" alt="Image preview" src="https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/images.png" /><br><b>Images</b> &middot; Support</td>
   </tr>
   <tr>
-    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/08cd3401-0be9-482e-a361-ff6c9325d9ae" /><br><b>PDF</b> &middot; Support</td>
-    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/5366aae3-ceba-4e45-a517-198c47ddf542" /><br><b>Office Files</b> &middot; Support (Only text)</td>
-    <td align="center"><img width="230" alt="Aurora Violet" src="https://github.com/user-attachments/assets/2dc374a1-185a-4a94-a060-3624ca6b6a92" /><br><b>Folder</b> &middot; Support</td>
+    <td align="center"><img width="230" alt="PDF preview" src="https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/pdf.png" /><br><b>PDF</b> &middot; Support</td>
+    <td align="center"><img width="230" alt="Office document preview, read as text" src="https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/office.png" /><br><b>Office Files</b> &middot; Support (Only text)</td>
+    <td align="center"><img width="230" alt="Folder preview" src="https://raw.githubusercontent.com/DavidRaveloU/Quick-Look-Windhawk/main/assets/preview.png" /><br><b>Folder</b> &middot; Support</td>
 
   </tr>
 </table>
