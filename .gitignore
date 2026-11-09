@@ -1,0 +1,15 @@
+*.exe
+*.dll
+*.pdb
+*.obj
+/build/
+/.vs/
+
+# Local development only, never published.
+/.atl/
+/ejemplos/
+/odd/
+/build-check.ps1
+/windhawk_mock.h
+# Remove this line once the issue templates are ready to publish.
+/.github/
