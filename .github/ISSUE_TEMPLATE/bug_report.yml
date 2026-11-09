@@ -1,0 +1,150 @@
+name: 🐛 Report a Bug
+description: Report a bug or unexpected behavior in the Quick Look mod.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Thanks for reporting the issue! 🚀
+        Quick Look docks a preview panel inside File Explorer and toggles it with
+        **Space**. Please fill out this form so the panel, the preview type and the
+        environment can be reproduced quickly.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Preliminary review
+      description: Please make sure the problem has not been reported already.
+      options:
+        - label: I have searched the open/closed issues and nobody has reported this same problem.
+          required: true
+        - label: I read the README, including the Keys and Diagnostics sections.
+          required: true
+
+  - type: dropdown
+    id: windows-version
+    attributes:
+      label: Windows version
+      description: The operating system the mod runs on.
+      options:
+        - "Windows 11 (24H2 or newer)"
+        - "Windows 11 (23H2 / 22H2)"
+        - "Windows 11 (21H2 or older)"
+        - "Windows 10"
+        - "Other / Insider build"
+    validations:
+      required: true
+
+  - type: input
+    id: versions
+    attributes:
+      label: Windhawk and mod version
+      description: Which Windhawk version is installed and which mod version is loaded?
+      placeholder: "e.g. Windhawk v1.6.1 - Quick Look v0.10.25"
+    validations:
+      required: true
+
+  - type: input
+    id: previewed-item
+    attributes:
+      label: What were you previewing?
+      description: The file or folder that triggers the problem, with its extension.
+      placeholder: "e.g. C:\\Projects\\site\\index.html, or a folder with 900 items"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: preview-kind
+    attributes:
+      label: Preview type
+      description: Which renderer was on screen when the problem happened?
+      options:
+        - "Folder contents"
+        - "Text or code file"
+        - "Image"
+        - "Video"
+        - "Audio"
+        - "PDF"
+        - "Archive (zip, rar, 7z...)"
+        - "Properties view (no renderer)"
+        - "Not sure"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: explorer-view
+    attributes:
+      label: Explorer view mode
+      description: The file view mode when the panel was opened. The column fitting only applies in Details.
+      options:
+        - "Details"
+        - "List"
+        - "Icons"
+        - "Not sure"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Windows theme
+      description: The panel samples Explorer's real colors, so the theme matters.
+      options:
+        - "Dark"
+        - "Light"
+        - "Custom accent / mixed"
+        - "Not sure"
+
+  - type: input
+    id: display
+    attributes:
+      label: Display setup (optional)
+      description: Scaling percentage and number of monitors, if the bug looks like a size, DPI or docking problem.
+      placeholder: "e.g. 150% scaling on two 1440p monitors"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: What exactly happens in the panel, and what should happen instead?
+      placeholder: |
+        e.g. Pressing Space on a folder shows the panel, but the native file list stays empty and the footer says "0 files 0 folders".
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The exact steps that trigger the failure.
+      placeholder: |
+        1. Make sure Windhawk is running with Quick Look enabled.
+        2. Open Explorer in Details view and select the file.
+        3. Press Space, resize the window, scroll the panel.
+        4. See the problem.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and evidence
+      description: >-
+        The mod writes `%TEMP%\quick-look.log` (for example
+        `C:\Users\you\AppData\Local\Temp\quick-look.log`) and also logs to
+        Windhawk. Attach that file when you can. F8 dumps the Explorer window
+        tree, Ctrl+Alt+Shift+D dumps the foreground tree while the panel is
+        closed, and Ctrl+Alt+Shift+L forces the panel toggle.
+      placeholder: Drag the log file or the screenshots here.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: submit-pr
+    attributes:
+      label: Are you willing to submit a PR?
+      description: >-
+        (Optional) We encourage you to open a [Pull Request](../../pulls) if you
+        have a fix or an improvement in mind.
+      options:
+        - label: Yes, I'd like to help by submitting a PR!

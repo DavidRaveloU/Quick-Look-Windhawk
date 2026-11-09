@@ -11,5 +11,6 @@
 /odd/
 /build-check.ps1
 /windhawk_mock.h
-# Remove this line once the issue templates are ready to publish.
-/.github/
+# The version workflow is still the one from the other repo; it stays local
+# until it targets quick-look.wh.cpp.
+/.github/workflows/

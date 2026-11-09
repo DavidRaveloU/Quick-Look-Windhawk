@@ -1,0 +1,75 @@
+name: ✨ Feature Request
+description: Suggest a new idea, renderer or enhancement for the Quick Look mod.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Share your idea! 💡
+        Quick Look is a preview panel for File Explorer. It already renders folder
+        contents, text and code files, images, a video frame, album art, PDFs and
+        archives, and falls back to a properties view for everything else.
+        Please check that list before asking for a renderer that already exists.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the mod does the idea touch?
+      options:
+        - "Preview renderer (a new file type)"
+        - "Text preview (toolbar, search, options)"
+        - "Panel layout, docking or resizing"
+        - "Colors and theming"
+        - "Settings"
+        - "Performance or responsiveness"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-link
+    attributes:
+      label: Is your feature request related to a problem?
+      description: A clear description of the problem or limitation (e.g. "I'm always frustrated when...").
+      placeholder: |
+        e.g. I open a lot of XML files and have to wait for Space to close and reopen the panel to switch files.
+    validations:
+      required: false
+
+  - type: textarea
+    id: solution-description
+    attributes:
+      label: Describe the desired solution
+      description: What should happen, and how should it look or behave?
+      placeholder: |
+        e.g. Add a toggle in the text toolbar that highlights the syntax of the current file, using the same accent color.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+      description: Any workaround, external tool or different approach you already tried.
+      placeholder: |
+        e.g. I tried opening the file in an editor, but I want to stay inside Explorer.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context or visual examples
+      description: Mockups, screenshots or links are welcome.
+      placeholder: You can drag and drop your images here.
+
+  - type: checkboxes
+    id: submit-pr
+    attributes:
+      label: Are you willing to submit a PR?
+      description: >-
+        (Optional) We encourage you to open a [Pull Request](../../pulls) if you
+        want to code this feature yourself.
+      options:
+        - label: Yes, I'd like to help by submitting a PR!
