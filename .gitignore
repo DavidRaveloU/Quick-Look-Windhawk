@@ -11,6 +11,3 @@
 /odd/
 /build-check.ps1
 /windhawk_mock.h
-# The version workflow is still the one from the other repo; it stays local
-# until it targets quick-look.wh.cpp.
-/.github/workflows/
