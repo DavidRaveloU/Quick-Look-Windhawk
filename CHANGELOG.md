@@ -8,6 +8,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > Releases are listed **newest first**. Sections are only ever added: a new version gets a
 > new entry on top and the previous ones are kept exactly as they were.
 
+## [1.1.0] - 2026-11-18
+
+### Added
+
+- **A theme setting.** Theme can stay on Auto or be forced to light or dark, for a custom visual style
+  that disagrees with the Windows app mode. The embedded folder and archive list follows it too.
+
+### Changed
+
+- **Colors that follow Windows, with readable text.** The panel keeps Explorer's sampled surface as its
+  background, so Mica, wallpaper-tinted and custom-themed windows keep the effect they were set up for;
+  the text color is now chosen by WCAG contrast against that background instead of being sampled, which
+  is what made the title unreadable on a dark surface.
+
+### Removed
+
+- **The opt-in diagnostic log and its shortcuts.** `%TEMP%\quick-look.log`, the "Write a diagnostic log
+  file" setting and the **F8** / **Ctrl + Alt + Shift + D / L / Q** shortcuts are gone: the mod writes
+  to the Windhawk log, off by default.
+
+### Fixed
+
+- **Disabling or updating the mod with a panel open** now undoes each window's panel from that window's
+  own message loop. The cleanup used to run inside a sent message, where COM refuses the outgoing calls
+  a preview handler needs, so a panel that was showing a PDF could be left behind.
+- **The Details columns go back before Explorer saves them**, on a navigation, a tab close and a window
+  close, so a folder no longer remembers the widths the panel shrank while it was open.
+- **The icon in the properties view** comes from the shell's extra-large list, so a file whose icon has
+  no large frame fills its box instead of sitting tiny in the corner.
+- **A blocked navigation outside the preview is refused silently.** A results folder, the parent folder
+  or any other namespace target used to become an "open" request; now only an item of the previewed
+  folder does, and anything else is cancelled without opening an Explorer window.
+- **The panel closes when the tab navigates**, instead of holding on to a view that no longer exists.
+- **A crafted document** can no longer overflow an integer in the column, RTF or OpenDocument parsers.
+
 ## [1.0.0] - 2026-11-09
 
 The first release: a preview panel that lives inside File Explorer.

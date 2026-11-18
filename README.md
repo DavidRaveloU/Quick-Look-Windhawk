@@ -86,8 +86,10 @@ A few of the things it previews:
   list. Formats with no shell namespace fall back to the properties view.
 - **A fallback that still helps.** Anything else shows the real file icon plus its type, size, modified
   date and full path.
-- **Colors that follow Windows.** The panel samples Explorer's actual pixels for the background and the
-  text, and takes the accent from Windows itself, so light, dark and custom accents look native.
+- **Colors that follow Windows.** The panel samples Explorer's actual surface for its background and
+  takes the accent from Windows itself; its text is chosen for contrast, so light, dark, Mica-style and
+  custom visual styles stay readable. The theme can be left on Auto or forced to light or dark in the
+  settings.
 - **Explorer never freezes.** Listing a folder, reading a file, decoding an image, building a thumbnail or
   checking a cloud placeholder all run on worker threads. The panel opens at once with a loading state,
   a new selection cancels the previous load, and a file that is only a cloud placeholder is never
@@ -117,11 +119,11 @@ child of the window instead of a window that follows it.
 
 | Setting | Default | What it does |
 | --- | --- | --- |
+| Theme | Auto | Follows the Windows light or dark app mode, with the sampled Explorer surface as a tie-breaker. Force light or dark for a custom visual style that does not match the Windows theme. The embedded folder and archive list follows it too. |
 | Shrink columns to fit the panel | On | Shrinks the file view and scales the Details columns to the space left by the panel. Turn it off to overlay the panel instead. |
 | Remember the text preview options | On | Keeps wrap, line numbers, whitespace dots and alternating rows as you left them for the next window or session. |
 | Line numbers by default | Off | The gutter used when the options are not remembered. |
 | Alternating rows by default | Off | The alternating row color used when the options are not remembered. |
-| Write a diagnostic log file | Off | Appends diagnostics to `%TEMP%\quick-look.log`. Off because every line is a disk write. |
 
 ## What each file shows
 
@@ -145,13 +147,19 @@ child of the window instead of a window that follows it.
 - **Cloud files are left alone.** A file that is only a placeholder is not downloaded to be previewed.
 - **Text is capped.** A text preview reads the first 200 KB and says so in the footer.
 
+## Limitations
+
+- **A forced theme can mismatch the Windows mode.** The folder and archive list is drawn by Explorer
+  itself. When the panel's Theme is forced to a mode that differs from Windows' own app mode, the
+  list's rows follow the panel but its scrollbar and parts of its header can keep the Windows look.
+  For the most native result, set the same mode as Windows, or leave Theme on Auto.
+
 ## Troubleshooting
 
-- **Space does nothing.** Press **Ctrl + Alt + Shift + L**: it forces the panel toggle and bypasses the
-  focus check. If that opens the panel, the mod is loaded and the focus detection is the blocker.
-- **Something looks wrong.** Enable **Write a diagnostic log file** in the mod settings, reproduce it,
-  and attach `%TEMP%\quick-look.log` to the issue. **F8** dumps the Explorer window tree to the Windhawk
-  log and **Ctrl + Alt + Shift + D** dumps the foreground tree even while the panel is hidden.
+- **Space does nothing.** The panel only opens when the file list itself has the focus, so a pending
+  rename, an address bar edit or the search box is never hijacked. Click the file list and try again.
+- **Something looks wrong.** Turn on the Windhawk log for this mod (Advanced tab), reproduce it and
+  attach the log to the issue. It is off by default because it adds a line for every step.
 - **A document shows only text.** That is by design: modern Office and OpenDocument files are read as
   text, so layout, images and colors are not part of the preview.
 
@@ -170,5 +178,7 @@ published, so they always agree with what the mod shows.
 ## License
 
 Released under the **MIT License**. See [`LICENSE`](LICENSE).
+The inflate code that reads Word and OpenDocument files is derived from zlib's `puff.c` and keeps its
+zlib license notice in the source.
 
 Copyright (c) 2026-present David Ravelo.
