@@ -87,9 +87,9 @@ A few of the things it previews:
 - **A fallback that still helps.** Anything else shows the real file icon plus its type, size, modified
   date and full path.
 - **Colors that follow Windows.** The panel samples Explorer's actual surface for its background and
-  takes the accent from Windows itself; its text is chosen for contrast, so light, dark, Mica-style and
-  custom visual styles stay readable. The theme can be left on Auto or forced to light or dark in the
-  settings.
+  takes the accent from Windows itself; its text follows the theme, so it never flips between previews,
+  and the sampled surface is kept only when that text stays readable on it. The theme can be left on
+  Auto or forced to light or dark in the settings.
 - **Explorer never freezes.** Listing a folder, reading a file, decoding an image, building a thumbnail or
   checking a cloud placeholder all run on worker threads. The panel opens at once with a loading state,
   a new selection cancels the previous load, and a file that is only a cloud placeholder is never

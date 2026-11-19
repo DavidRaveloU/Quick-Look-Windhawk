@@ -19,8 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Colors that follow Windows, with readable text.** The panel keeps Explorer's sampled surface as its
   background, so Mica, wallpaper-tinted and custom-themed windows keep the effect they were set up for;
-  the text color is now chosen by WCAG contrast against that background instead of being sampled, which
-  is what made the title unreadable on a dark surface.
+  the text color now follows the theme instead of being sampled, so it no longer flips between previews,
+  and the sampled surface is kept only when that text stays readable on it.
 
 ### Removed
 
