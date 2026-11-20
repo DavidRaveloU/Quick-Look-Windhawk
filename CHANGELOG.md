@@ -8,40 +8,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > Releases are listed **newest first**. Sections are only ever added: a new version gets a
 > new entry on top and the previous ones are kept exactly as they were.
 
-## [1.1.0] - 2026-11-18
+## [1.1.0] - 2026-11-20
 
 ### Added
 
-- **A theme setting.** Theme can stay on Auto or be forced to light or dark, for a custom visual style
-  that disagrees with the Windows app mode. The embedded folder and archive list follows it too.
+- **Glass effects are supported.** With ExplorerBlurMica, DWMBlurGlass or similar, the panel follows
+  the effect like the rest of the window, in dark and in light mode. Its text is drawn solid instead of
+  being added to the blur, and an image preview is never tinted by what is behind Explorer. Without an
+  effect the panel is drawn exactly as before.
+- **Zoom and pan for images.** Double click an image to switch between fit and 100%, drag a zoomed
+  image to pan it, and use the wheel (Shift for sideways) to scroll it.
 
 ### Changed
 
-- **Colors that follow Windows, with readable text.** The panel keeps Explorer's sampled surface as its
-  background, so Mica, wallpaper-tinted and custom-themed windows keep the effect they were set up for;
-  the text color now follows the theme instead of being sampled, so it no longer flips between previews,
-  and the sampled surface is kept only when that text stays readable on it.
-
-### Removed
-
-- **The opt-in diagnostic log and its shortcuts.** `%TEMP%\quick-look.log`, the "Write a diagnostic log
-  file" setting and the **F8** / **Ctrl + Alt + Shift + D / L / Q** shortcuts are gone: the mod writes
-  to the Windhawk log, off by default.
+- **Colors follow the Windows app mode.** The text color now depends only on whether Windows is light
+  or dark, so it no longer turns gray or white from one preview to the next. The background stays
+  Explorer's own surface. The accent still comes from Windows.
+- **Archives show the shell's own view without a name filter.** A results folder cannot resolve the
+  name of an item inside an archive, so the filter box is hidden there. Folders keep the filter.
 
 ### Fixed
 
-- **Disabling or updating the mod with a panel open** now undoes each window's panel from that window's
-  own message loop. The cleanup used to run inside a sent message, where COM refuses the outgoing calls
-  a preview handler needs, so a panel that was showing a PDF could be left behind.
-- **The Details columns go back before Explorer saves them**, on a navigation, a tab close and a window
-  close, so a folder no longer remembers the widths the panel shrank while it was open.
-- **The icon in the properties view** comes from the shell's extra-large list, so a file whose icon has
-  no large frame fills its box instead of sitting tiny in the corner.
-- **A blocked navigation outside the preview is refused silently.** A results folder, the parent folder
-  or any other namespace target used to become an "open" request; now only an item of the previewed
-  folder does, and anything else is cancelled without opening an Explorer window.
-- **The panel closes when the tab navigates**, instead of holding on to a view that no longer exists.
-- **A crafted document** can no longer overflow an integer in the column, RTF or OpenDocument parsers.
+- **Typing in the filter no longer opens an Explorer window.** The panel's own results view is no
+  longer treated as a navigation, and a navigation outside the previewed folder is cancelled silently.
+- **The filter shows the right items.** Only the matching direct children of the previewed folder are
+  listed, with no duplicates and no stray file.
+- **The icon in the properties view** is taken from a frame the shell did not pad, so it fills its box
+  instead of sitting tiny in the corner.
+- **A folder inside an archive** shows an empty date instead of the 1601 epoch.
+- **Opaque images scale sharply.** Only an image with real transparency is blended; a photo or a
+  screenshot is scaled with a crisp filter.
 
 ## [1.0.0] - 2026-11-09
 
@@ -92,8 +88,4 @@ The first release: a preview panel that lives inside File Explorer.
   new selection cancels the previous load, and a file that is only a cloud placeholder is never
   downloaded just to be previewed.
 - **Settings.** Shrink columns to fit the panel, remember the text preview options (or start from the
-  defaults: line numbers and alternating rows), and an opt-in diagnostic log in
-  `%TEMP%\quick-look.log`.
-- **Diagnostics.** **F8** dumps the Explorer window tree, **Ctrl + Alt + Shift + D** dumps the foreground
-  tree while the panel is hidden, **Ctrl + Alt + Shift + L** forces the panel toggle and
-  **Ctrl + Alt + Shift + Q** disables or enables the mod.
+  defaults: line numbers and alternating rows).

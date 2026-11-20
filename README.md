@@ -64,9 +64,10 @@ A few of the things it previews:
 - **Folders, with Explorer's own list.** The preview hosts a real Explorer browser, so icons, columns,
   sorting, grouping and the Details / List / Icons view modes are Explorer's. A view dropdown in the
   header switches between Details, List, Small, Medium, Large and Extra Large icons.
-- **A real filter, at the same level.** Typing in the filter box shows only the matching direct children
-  of the previewed folder, with their original columns, and clearing it brings the folder back. No
-  subfolder is ever searched.
+- **A real filter, at the same level.** In a folder preview, typing in the filter box shows only the
+  matching direct children, with their original columns, and clearing it brings the folder back. No
+  subfolder is ever searched. Archives have no filter: the shell's own archive view cannot be narrowed
+  without a namespace of our own.
 - **Text and code, detected by content.** No extension list: a file is text when its bytes say so, so
   `.ahk`, `.psd1`, `.config`, extensionless files and anything else just work. UTF-8, UTF-16 LE/BE and the
   ANSI code page are decoded, and the footer reports which one was used, the size and the line count.
@@ -86,10 +87,10 @@ A few of the things it previews:
   list. Formats with no shell namespace fall back to the properties view.
 - **A fallback that still helps.** Anything else shows the real file icon plus its type, size, modified
   date and full path.
-- **Colors that follow Windows.** The panel samples Explorer's actual surface for its background and
-  takes the accent from Windows itself; its text follows the theme, so it never flips between previews,
-  and the sampled surface is kept only when that text stays readable on it. The theme can be left on
-  Auto or forced to light or dark in the settings.
+- **Colors that follow Windows.** The panel follows the Windows light or dark app mode, and its text
+  color depends only on that mode, so it never changes with what is behind a Mica or blur window. The
+  background is Explorer's own surface, so a glass effect covers the panel like the rest of the
+  window, in dark and in light mode. The accent comes from Windows itself.
 - **Explorer never freezes.** Listing a folder, reading a file, decoding an image, building a thumbnail or
   checking a cloud placeholder all run on worker threads. The panel opens at once with a loading state,
   a new selection cancels the previous load, and a file that is only a cloud placeholder is never
@@ -114,12 +115,13 @@ child of the window instead of a window that follows it.
 | **Click the close button** | Close the preview with the mouse |
 | **Shift + wheel** | Scroll a text preview sideways when word wrap is off |
 | **Mouse wheel / drag the bars** | Scroll the preview |
+| **Double click an image** | Switch between fit and 100% |
+| **Wheel / drag a zoomed image** | Scroll it, or pan it with the mouse (Shift for sideways) |
 
 ## Settings
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| Theme | Auto | Follows the Windows light or dark app mode, with the sampled Explorer surface as a tie-breaker. Force light or dark for a custom visual style that does not match the Windows theme. The embedded folder and archive list follows it too. |
 | Shrink columns to fit the panel | On | Shrinks the file view and scales the Details columns to the space left by the panel. Turn it off to overlay the panel instead. |
 | Remember the text preview options | On | Keeps wrap, line numbers, whitespace dots and alternating rows as you left them for the next window or session. |
 | Line numbers by default | Off | The gutter used when the options are not remembered. |
@@ -146,13 +148,6 @@ child of the window instead of a window that follows it.
 - **Single click selects.** A double click on empty space does nothing.
 - **Cloud files are left alone.** A file that is only a placeholder is not downloaded to be previewed.
 - **Text is capped.** A text preview reads the first 200 KB and says so in the footer.
-
-## Limitations
-
-- **A forced theme can mismatch the Windows mode.** The folder and archive list is drawn by Explorer
-  itself. When the panel's Theme is forced to a mode that differs from Windows' own app mode, the
-  list's rows follow the panel but its scrollbar and parts of its header can keep the Windows look.
-  For the most native result, set the same mode as Windows, or leave Theme on Auto.
 
 ## Troubleshooting
 
